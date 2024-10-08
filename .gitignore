@@ -1,3 +1,10 @@
 node_modules/
+./idea/
 .idea/
-client/.next/
+idea/
+idea
+
+./client/.next
+client/.next
+.next
+next
