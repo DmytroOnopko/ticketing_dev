@@ -5,17 +5,17 @@ type Payload<Data extends object = object> = Data;
 export class JwtService {
     protected constructor() {};
 
-    static generate<Data extends object>(payload: Payload<Data>) {
+    static generate<GenerateData extends object>(payload: Payload<GenerateData>) {
         return jwt.sign({
             ...payload
         }, process.env.JWT_KEY!)
     }
 
-    static verify(token: string) {
+    static verify<VerifyPayload extends object>(token: string) {
         try {
-            return jwt.verify(token, process.env.JWT_KEY!)
+            return jwt.verify(token, process.env.JWT_KEY!) as VerifyPayload;
         } catch (e) {
-            return null;
+            return undefined;
         }
     }
 }

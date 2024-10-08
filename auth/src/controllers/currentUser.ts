@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
-import { JwtService } from "../services/jwt";
 
-export const currentUser = (req: Request, res: Response) => {
-    const payload = JwtService.verify(req.session?.jwt);
+type CurrentUserType = (req: Request, res: Response) => void;
 
-    res.status(201).send({
-        currentUser: !req.session?.jwt ? null : payload
-    });
-};
+export const currentUser: CurrentUserType = ({currentUser}, res) =>
+    res.status(200).send({ currentUser });

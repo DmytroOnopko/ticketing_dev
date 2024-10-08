@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
 export const signOut = (req: Request, res: Response) => {
-    res.send('signOut')
+    req.session = null;
+
+    res.status(200).send({})
 };

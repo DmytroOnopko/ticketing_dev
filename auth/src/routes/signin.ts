@@ -1,7 +1,8 @@
 import express from 'express';
 import { body } from 'express-validator';
 
-import { validationReq } from "../middlewares/validationReq";
+import { Paths } from "../shell/paths";
+import { validationReqMid } from "../middlewares/validationReq";
 import { signIn } from "../controllers/signin";
 
 export const signInRouter = express.Router();
@@ -11,4 +12,4 @@ const bodyValidator = [
     body('password').trim().notEmpty().withMessage('Password must be provided'),
 ];
 
-signInRouter.post('/api/users/signin', bodyValidator, validationReq, signIn);
+signInRouter.post(Paths.SIGN_IN, bodyValidator, validationReqMid, signIn);
