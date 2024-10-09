@@ -1,9 +1,6 @@
 node_modules/
 
 .next/
-#.next/
 
-auth/node_modules/
-auth/.next/
 client/node_modules/
 client/.next/

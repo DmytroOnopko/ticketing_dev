@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import CurrentUser from "../currentUser/currentUser";
 
 const Index = () => {
-    return <Box><Typography variant="h1">Index12</Typography></Box>
+    return <CurrentUser />
 };
 
 export default Index;

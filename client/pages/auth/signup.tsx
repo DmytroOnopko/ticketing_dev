@@ -1,22 +1,32 @@
-import { TextField } from "../components/Fields/TextField";
 import { Control, useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Container, Typography } from "@mui/material";
-import { Credentials } from "../auth/types";
+
+import { Credentials } from "./types";
+import { useSignupQuery } from "../auth/useSignupQuery";
+import { TextField } from "../../components/Fields/TextField";
+import { useValidationSchema } from "./useValidationSchema";
 
 const Signup = () => {
-    const { control } = useForm<Credentials>();
+    const validationSchema = useValidationSchema();
+    const { control, handleSubmit } = useForm<Credentials>({
+        resolver: yupResolver(validationSchema)
+    });
+    const { mutate, isPending } = useSignupQuery();
 
     return (
-        <Container maxWidth="sm"
-                   sx={{
-                       display: 'flex',
-                       alignItems: 'center',
-                       justifyContent: 'center',
-                       height: '100%'
-                   }}
+        <Container
+            maxWidth="sm"
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%'
+            }}
         >
-            <Box component='form'
-                 onSubmit={() => null}
+            <Box noValidate
+                 component='form'
+                 onSubmit={handleSubmit((credentials) => mutate(credentials))}
                  sx={{
                      display: 'flex',
                      flexDirection: 'column',
@@ -25,10 +35,35 @@ const Signup = () => {
                      minWidth: 180,
                      flex: 1,
                  }}>
-                <Typography variant="h4" fontWeight={700} textAlign="center" pb={1}>Sign up</Typography>
-                <TextField required control={control as Control<Credentials>} name="email" label="Email" type="email" />
-                <TextField required control={control as Control<Credentials>} name="password" label="Password" type="password" />
-                <Button variant="contained">Submit</Button>
+                <Typography
+                    variant="h4"
+                    fontWeight={700}
+                    textAlign="center"
+                    pb={1}
+                >Sign Up</Typography>
+                <TextField
+                    required
+                    disabled={isPending}
+                    control={control as Control<Credentials>}
+                    name="email"
+                    label="Email"
+                    type="email"
+                />
+                <TextField
+                    required
+                    disabled={isPending}
+                    control={control as Control<Credentials>}
+                    name="password"
+                    label="Password"
+                    type="password"
+                />
+                <Button
+                    disabled={isPending}
+                    variant="contained"
+                    type="submit"
+                >
+                    Submit
+                </Button>
             </Box>
         </Container>
     )
