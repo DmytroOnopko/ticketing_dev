@@ -4,12 +4,13 @@ import {CurrentUser} from '@/types';
 
 export const signup = async (credentials: Credentials) => {
     try {
-        await axios.post<CurrentUser>('http://ticketing.dev/api/users/signup', credentials);
+        await axios.post<CurrentUser>('/api/users/signup', credentials);
     } catch (e) {
         let msg = 'Something went wrong!';
+        const errors = e.response.data?.errors;
 
-        if (e.response.data?.errors) {
-            msg = e.map((i) => i.message).join('. ');
+        if (errors) {
+            msg = errors.map((i) => i.message).join('. ');
         }
 
         throw new Error(msg);
